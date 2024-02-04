@@ -15,8 +15,9 @@ const char attack_sound_path[] = "./assets/sound/Arrow.wav";
  * @param attack_freq period for tower to attack.
  * @param type tower type.
 */
-Tower::Tower(const Point &p, double attack_range, int attack_freq, TowerType type) : Object<Circle>({p.x, p.y, attack_range}) {
+Tower::Tower(const Point &p, double attack_range, int attack_freq, TowerType type) {
 	ImageCenter *IC = ImageCenter::get_instance();
+	shape.reset(new Circle(p.x, p.y, attack_range));
 	counter = 0;
 	this->attack_freq = attack_freq;
 	this->type = type;
@@ -42,9 +43,9 @@ Tower::update() {
  * @brief Check whether the tower can attack the target. If so, shoot a bullet to the target.
 */
 bool
-Tower::attack(Object<Rectangle> *target) {
+Tower::attack(Object *target) {
 	if(counter) return false;
-	if(!target->shape.overlap(shape)) return false;
+	if(!target->shape->overlap(*shape)) return false;
 	TowerCenter *TC = TowerCenter::get_instance();
 	SoundCenter *SC = SoundCenter::get_instance();
 	TC->bullets.emplace_back(create_bullet(target));
@@ -58,7 +59,11 @@ Tower::attack(Object<Rectangle> *target) {
 */
 void
 Tower::draw() {
-	al_draw_bitmap(bitmap, shape.x - al_get_bitmap_width(bitmap)/2, shape.y - al_get_bitmap_height(bitmap)/2, 0);
+	Point *point = static_cast<Point*>(shape.get());
+	al_draw_bitmap(
+		bitmap,
+		point->x - al_get_bitmap_width(bitmap)/2,
+		point->y - al_get_bitmap_height(bitmap)/2, 0);
 }
 
 /**
@@ -66,12 +71,13 @@ Tower::draw() {
 */
 Rectangle
 Tower::get_region() const {
+	Point *point = static_cast<Point*>(shape.get());
 	int w = al_get_bitmap_width(bitmap);
 	int h = al_get_bitmap_height(bitmap);
 	return {
-		shape.x - w/2,
-		shape.y - h/2,
-		shape.x - w/2 + w,
-		shape.y - h/2 + h
+		point->x - w/2,
+		point->y - h/2,
+		point->x - w/2 + w,
+		point->y - h/2 + h
 	};
 }

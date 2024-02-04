@@ -2,20 +2,18 @@
 #define OBJECT_H_INCLUDED
 
 #include "shapes/Shape.h"
-#include <type_traits>
+#include <memory>
 
-template <class T>
 class Object
 {
-static_assert(std::is_base_of<Shape, T>::value, "T must derive from Shape class.");
 public:
-	Object(const T &shape) : shape(shape) {}
+	Object() {}
 	virtual ~Object() {}
 public:
 	// pure function for drawing the object
 	virtual void draw() = 0;
 public:
-	T shape;
+	std::unique_ptr<Shape> shape;
 };
 
 #endif

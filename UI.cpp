@@ -178,13 +178,14 @@ UI::draw() {
 			if(selected_tower == nullptr) {
 				selected_tower = TC->create_tower(static_cast<TowerType>(on_item), mouse);
 			} else {
-				selected_tower->shape.x = mouse.x;
-				selected_tower->shape.y = mouse.y;
+				Point *point = static_cast<Point*>(selected_tower->shape.get());
+				point->x = mouse.x;
+				point->y = mouse.y;
 			}
 		}
 		case STATE::PLACE: {
 			ALLEGRO_BITMAP *bitmap = TC->get_bitmap(static_cast<TowerType>(on_item));
-			al_draw_filled_circle(mouse.x, mouse.y, selected_tower->shape.r, al_map_rgba(255, 0, 0, 32));
+			al_draw_filled_circle(mouse.x, mouse.y, selected_tower->attack_range(), al_map_rgba(255, 0, 0, 32));
 			int w = al_get_bitmap_width(bitmap);
 			int h = al_get_bitmap_height(bitmap);
 			al_draw_bitmap(bitmap, mouse.x - w / 2, mouse.y - h / 2, 0);

@@ -25,7 +25,7 @@ MonsterCenter::update() {
 	TowerCenter *TC = TowerCenter::get_instance();
 	for(int i=0; i<(int)(monsters.size()); ++i) {
 		for(int j=0; j<(int)(TC->bullets.size()); ++j) {
-			if(monsters[i]->shape.overlap(TC->bullets[j]->shape)) {
+			if(monsters[i]->shape->overlap(*(TC->bullets[j]->shape))) {
 				monsters[i]->HP -= TC->bullets[j]->get_dmg();
 				TC->bullets.erase(TC->bullets.begin()+j);
 				--j;

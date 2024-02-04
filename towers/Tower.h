@@ -15,16 +15,17 @@ class Monster;
  * @brief Tower base class.
  * @details The class inherits from Object. Circle here represents its position (x and y) and attack range (r).
 */
-class Tower : public Object<Circle>
+class Tower : public Object
 {
 public:
 	Tower(const Point &p, double attack_range, int attack_freq, TowerType type);
 	virtual ~Tower() {}
 	void update();
-	virtual bool attack(Object<Rectangle> *target);
+	virtual bool attack(Object *target);
 	void draw();
 	Rectangle get_region() const;
-	virtual Bullet *create_bullet(Object<Rectangle> *target) = 0;
+	virtual Bullet *create_bullet(Object *target) = 0;
+	virtual const double attack_range() const = 0;
 	TowerType type;
 private:
 	/**

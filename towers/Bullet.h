@@ -9,7 +9,7 @@
 /**
  * @brief Bullet class, inherits from Object and takes Circle as hit box.
 */
-class Bullet : public Object<Circle>
+class Bullet : public Object
 {
 public:
 	Bullet(const Point &p, const Point &target, const std::string &path, double v, int dmg, double fly_dist);

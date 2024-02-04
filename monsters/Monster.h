@@ -13,7 +13,7 @@ enum class Dir;
  * @brief The class of a monster (enemies).
  * @details Monster inherits Object and takes Rectangle as its hit box.
 */
-class Monster : public Object<Rectangle>
+class Monster : public Object
 {
 public:
 	Monster(const std::vector<Point> &path, MonsterType type);
