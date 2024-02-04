@@ -4,28 +4,16 @@
 #include "Shape.h"
 #include <cmath>
 
+/**
+ * @see Shape.cpp
+*/
 class Point : public Shape
 {
-	struct OverlapVisitor : public ShapeVisitor
-	{
-		OverlapVisitor(const Point &self) : result(false), self(self) {}
-		void visitPoint(const Point &p);
-		void visitRectangle(const Rectangle &r);
-		void visitCircle(const Circle &c);
-		bool result;
-		const Point &self;
-	};
 public:
-	void accept(ShapeVisitor &v) const {
-		v.visitPoint(*this);
-	}
-	bool overlap(const Shape &s) const {
-		OverlapVisitor v(*this);
-		s.accept(v);
-		return v.result;
-	}
+	bool overlap(const Shape &s) const;
 	double center_x() const { return x; }
 	double center_y() const { return y; }
+	const ShapeType getType() const { return ShapeType::POINT; }
 public:
 	Point() {}
 	Point(double x, double y) : x(x), y(y) {}
