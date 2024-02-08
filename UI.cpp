@@ -178,9 +178,8 @@ UI::draw() {
 			if(selected_tower == nullptr) {
 				selected_tower = TC->create_tower(static_cast<TowerType>(on_item), mouse);
 			} else {
-				Point *point = static_cast<Point*>(selected_tower->shape.get());
-				point->x = mouse.x;
-				point->y = mouse.y;
+				selected_tower->shape->update_center_x(mouse.x);
+				selected_tower->shape->update_center_y(mouse.y);
 			}
 		}
 		case STATE::PLACE: {

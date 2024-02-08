@@ -59,11 +59,10 @@ Tower::attack(Object *target) {
 */
 void
 Tower::draw() {
-	Point *point = static_cast<Point*>(shape.get());
 	al_draw_bitmap(
 		bitmap,
-		point->x - al_get_bitmap_width(bitmap)/2,
-		point->y - al_get_bitmap_height(bitmap)/2, 0);
+		shape->center_x() - al_get_bitmap_width(bitmap)/2,
+		shape->center_y() - al_get_bitmap_height(bitmap)/2, 0);
 }
 
 /**
@@ -71,13 +70,12 @@ Tower::draw() {
 */
 Rectangle
 Tower::get_region() const {
-	Point *point = static_cast<Point*>(shape.get());
 	int w = al_get_bitmap_width(bitmap);
 	int h = al_get_bitmap_height(bitmap);
 	return {
-		point->x - w/2,
-		point->y - h/2,
-		point->x - w/2 + w,
-		point->y - h/2 + h
+		shape->center_x() - w/2,
+		shape->center_y() - h/2,
+		shape->center_x() - w/2 + w,
+		shape->center_y() - h/2 + h
 	};
 }

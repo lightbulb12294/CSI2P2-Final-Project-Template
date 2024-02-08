@@ -24,18 +24,17 @@ Bullet::Bullet(const Point &p, const Point &target, const std::string &path, dou
 void
 Bullet::update() {
 	if(fly_dist == 0) return;
-	Circle *circle = static_cast<Circle*>(shape.get());
 	DataCenter *DC = DataCenter::get_instance();
 	double dx = vx / DC->FPS;
 	double dy = vy / DC->FPS;
 	double movement = Point::dist(Point(dx, dy), Point(0, 0));
 	if(fly_dist > movement) {
-		circle->x += dx;
-		circle->y += dy;
+		shape->update_center_x(shape->center_x() + dx);
+		shape->update_center_y(shape->center_y() + dy);
 		fly_dist -= movement;
 	} else {
-		circle->x += dx * fly_dist / movement;
-		circle->y += dy * fly_dist / movement;
+		shape->update_center_x(shape->center_x() + dx * fly_dist / movement);
+		shape->update_center_y(shape->center_y() + dy * fly_dist / movement);
 		fly_dist = 0;
 	}
 }
@@ -45,6 +44,8 @@ Bullet::update() {
 */
 void
 Bullet::draw() {
-	Circle *circle = static_cast<Circle*>(shape.get());
-	al_draw_bitmap(bitmap, circle->x - al_get_bitmap_width(bitmap)/2, circle->y - al_get_bitmap_height(bitmap)/2, 0);
+	al_draw_bitmap(
+		bitmap,
+		shape->center_x() - al_get_bitmap_width(bitmap)/2,
+		shape->center_y() - al_get_bitmap_height(bitmap)/2, 0);
 }

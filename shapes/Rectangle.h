@@ -12,6 +12,14 @@ public:
 	bool overlap(const Shape &s) const;
 	double center_x() const { return (x1 + x2) / 2; }
 	double center_y() const { return (y1 + y2) / 2; }
+	void update_center_x(const double &x) {
+		double dx = x - center_x();
+		x1 += dx, x2 += dx;
+	}
+	void update_center_y(const double &y) {
+		double dy = y - center_y();
+		y1 += dy, y2 += dy;
+	}
 	const ShapeType getType() const { return ShapeType::RECTANGLE; }
 public:
 	Rectangle() {}

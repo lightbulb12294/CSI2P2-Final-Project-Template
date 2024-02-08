@@ -7,6 +7,7 @@
 #include "../shapes/Circle.h"
 #include "../shapes/Point.h"
 #include "../shapes/Rectangle.h"
+#include "../data/GAME_ASSERT.h"
 
 using namespace std;
 
@@ -61,7 +62,6 @@ Monster::Monster(const vector<Point> &path, MonsterType type) {
 */
 void
 Monster::update() {
-	Rectangle *rec = static_cast<Rectangle*>(shape.get());
 	DataCenter *DC = DataCenter::get_instance();
 	ImageCenter *IC = ImageCenter::get_instance();
 
@@ -76,22 +76,22 @@ Monster::update() {
 		const Rectangle &region = DC->level->grid_to_region(grid);
 		const Point &next_goal = Point(region.center_x(), region.center_y());
 
-		double d = Point::dist(Point(rec->center_x(), rec->center_y()), next_goal);
+		double d = Point::dist(Point(shape->center_x(), shape->center_y()), next_goal);
 		Dir tmpdir;
 		if(d < movement) {
 			movement -= d;
-			tmpdir = convert_dir(Point(next_goal.x-rec->center_x(), next_goal.y-rec->center_y()));
-			rec->x1 = rec->x2 = next_goal.x;
-			rec->y1 = rec->y2 = next_goal.y;
+			tmpdir = convert_dir(Point(next_goal.x - shape->center_x(), next_goal.y - shape->center_y()));
+			shape.reset(new Rectangle(
+				next_goal.x, next_goal.y,
+				next_goal.x, next_goal.y
+			));
 			path.pop();
 		} else {
-			double dx = (next_goal.x - rec->center_x()) / d * movement;
-			double dy = (next_goal.y - rec->center_y()) / d * movement;
+			double dx = (next_goal.x - shape->center_x()) / d * movement;
+			double dy = (next_goal.y - shape->center_y()) / d * movement;
 			tmpdir = convert_dir(Point(dx, dy));
-			rec->x1 += dx;
-			rec->x2 += dx;
-			rec->y1 += dy;
-			rec->y2 += dy;
+			shape->update_center_x(shape->center_x() + dx);
+			shape->update_center_y(shape->center_y() + dy);
 			movement = 0;
 		}
 		if(tmpdir != dir) {
@@ -107,14 +107,14 @@ Monster::update() {
 		dir_path_prefix[static_cast<int>(dir)],
 		bitmap_img_ids[static_cast<int>(dir)][bitmap_img_id]);
 	ALLEGRO_BITMAP *bitmap = IC->get(buffer);
-	const double &cx = rec->center_x();
-	const double &cy = rec->center_y();
+	const double &cx = shape->center_x();
+	const double &cy = shape->center_y();
 	const int &h = al_get_bitmap_width(bitmap) * 0.8;
 	const int &w = al_get_bitmap_height(bitmap) * 0.8;
-	rec->x1 = cx - w/2.;
-	rec->y1 = cy - h/2.;
-	rec->x2 = cx - w/2. + w;
-	rec->y2 = cy - h/2. + h;
+	shape.reset(new Rectangle(
+		cx - w/2., cy - h/2.,
+		cx - w/2. + w, cy - h/2. + h
+	));
 }
 
 /**
