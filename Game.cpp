@@ -1,5 +1,5 @@
 #include "Game.h"
-#include "data/GAME_ASSERT.h"
+#include "Utils.h"
 #include "data/DataCenter.h"
 #include "data/SoundCenter.h"
 #include "data/ImageCenter.h"
@@ -99,7 +99,7 @@ Game::Game() {
 		event_queue = al_create_event_queue(),
 		"failed to create event queue.");
 
-	puts("Game initialized.");
+	debug_log("Game initialized.\n");
 	game_init();
 }
 
@@ -135,7 +135,7 @@ Game::game_init() {
 
 	// game start
 	background = IC->get(background_img_path);
-	puts("Game state: change to START");
+	debug_log("Game state: change to START\n");
 	state = STATE::START;
 	al_start_timer(timer);
 }
@@ -160,13 +160,12 @@ Game::game_update() {
 			static ALLEGRO_SAMPLE_INSTANCE *instance = nullptr;
 			if(!is_played) {
 				instance = SC->play(game_start_sound_path, ALLEGRO_PLAYMODE_ONCE);
-				puts("Load level: 1");
 				DC->level->load_level(1);
 				is_played = true;
 			}
 
 			if(!SC->is_playing(instance)) {
-				puts("Game state: change to LEVEL");
+				debug_log("<Game> state: change to LEVEL\n");
 				state = STATE::LEVEL;
 			}
 			break;
@@ -179,22 +178,22 @@ Game::game_update() {
 
 			if(DC->key_state[ALLEGRO_KEY_P] && !DC->prev_key_state[ALLEGRO_KEY_P]) {
 				SC->toggle_playing(background);
-				puts("Game state: change to PAUSE");
+				debug_log("<Game> state: change to PAUSE\n");
 				state = STATE::PAUSE;
 			}
 			if(DC->level->remain_monsters() == 0 && MC->monsters.size() == 0) {
-				puts("Game state: change to END");
+				debug_log("<Game> state: change to END\n");
 				state = STATE::END;
 			}
 			if(DC->player->HP == 0) {
-				puts("Game state: change to END");
+				debug_log("<Game> state: change to END\n");
 				state = STATE::END;
 			}
 			break;
 		} case STATE::PAUSE: {
 			if(DC->key_state[ALLEGRO_KEY_P] && !DC->prev_key_state[ALLEGRO_KEY_P]) {
 				SC->toggle_playing(background);
-				puts("Game state: change to LEVEL");
+				debug_log("<Game> state: change to LEVEL\n");
 				state = STATE::LEVEL;
 			}
 			break;

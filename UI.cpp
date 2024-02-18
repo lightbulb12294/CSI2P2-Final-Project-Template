@@ -1,4 +1,5 @@
 #include "UI.h"
+#include "Utils.h"
 #include "data/DataCenter.h"
 #include "data/ImageCenter.h"
 #include "data/FontCenter.h"
@@ -39,7 +40,7 @@ UI::init() {
 		tl_x += w + tower_img_left_padding;
 		max_height = std::max(max_height, h);
 	}
-	puts("UI state: change to HALT");
+	debug_log("<UI> state: change to HALT\n");
 	state = STATE::HALT;
 	on_item = -1;
 }
@@ -59,7 +60,7 @@ UI::update() {
 				// hover on a shop tower item
 				if(mouse.overlap(Rectangle(p.x, p.y, p.x+w, p.y+h))) {
 					on_item = i;
-					puts("UI state: change to HOVER");
+					debug_log("<UI> state: change to HOVER\n");
 					state = STATE::HOVER;
 					break;
 				}
@@ -71,7 +72,7 @@ UI::update() {
 			int h = al_get_bitmap_height(bitmap);
 			if(!mouse.overlap(Rectangle(p.x, p.y, p.x+w, p.y+h))) {
 				on_item = -1;
-				puts("UI state: change to HALT");
+				debug_log("<UI> state: change to HALT\n");
 				state = STATE::HALT;
 				break;
 			}
@@ -79,23 +80,23 @@ UI::update() {
 			if(DC->mouse_state[1] && !DC->prev_mouse_state[1]) {
 				// no money
 				if(price > DC->player->coin) {
-					puts("UI: no money.");
+					debug_log("<UI> Not enough money to buy tower %d.\n", on_item);
 					break;
 				}
-				puts("UI state: change to SELECT");
+				debug_log("<UI> state: change to SELECT\n");
 				state = STATE::SELECT;
 			}
 			break;
 		} case STATE::SELECT: {
 			// click mouse left button: place
 			if(DC->mouse_state[1] && !DC->prev_mouse_state[1]) {
-				puts("UI state: change to PLACE");
+				debug_log("<UI> state: change to PLACE\n");
 				state = STATE::PLACE;
 			}
 			// click mouse right button: cancel
 			if(DC->mouse_state[2] && !DC->prev_mouse_state[2]) {
 				on_item = -1;
-				puts("UI state: change to HALT");
+				debug_log("<UI> state: change to HALT\n");
 				state = STATE::HALT;
 			}
 			break;
@@ -113,12 +114,12 @@ UI::update() {
 				place &= (!place_region.overlap(tower->get_region()));
 			}
 			if(!place) {
-				puts("UI: Tower place failed.");
+				debug_log("<UI> Tower place failed.\n");
 			} else {
 				TC->towers.emplace_back(TC->create_tower(static_cast<TowerType>(on_item), mouse));
 				DC->player->coin -= std::get<2>(tower_items[on_item]);
 			}
-			puts("UI state: change to HALT");
+			debug_log("<UI> state: change to HALT\n");
 			state = STATE::HALT;
 			break;
 		}

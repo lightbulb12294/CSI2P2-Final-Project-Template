@@ -1,6 +1,6 @@
 #include "ImageCenter.h"
 #include <allegro5/bitmap_io.h>
-#include "GAME_ASSERT.h"
+#include "../Utils.h"
 
 ImageCenter::~ImageCenter() {
 	for(auto &[path, bitmap] : bitmaps) {

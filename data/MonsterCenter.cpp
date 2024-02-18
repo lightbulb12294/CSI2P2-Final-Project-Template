@@ -1,5 +1,5 @@
 #include "MonsterCenter.h"
-#include "GAME_ASSERT.h"
+#include "../Utils.h"
 #include "../monsters/MonsterWolf.h"
 #include "../monsters/MonsterCaveMan.h"
 #include "../monsters/MonsterWolfKnight.h"

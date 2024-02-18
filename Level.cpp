@@ -1,6 +1,6 @@
 #include "Level.h"
 #include <string>
-#include "data/GAME_ASSERT.h"
+#include "Utils.h"
 #include "data/DataCenter.h"
 #include "data/MonsterCenter.h"
 #include <allegro5/allegro_primitives.h>
@@ -62,6 +62,7 @@ Level::load_level(int lvl) {
 		int h = num / grid_h;
 		road_path.emplace_back(w, h);
 	}
+	debug_log("<Level> load level %d.\n", lvl);
 }
 
 /**

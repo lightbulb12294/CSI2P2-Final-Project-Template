@@ -7,7 +7,7 @@
 #include "../shapes/Circle.h"
 #include "../shapes/Point.h"
 #include "../shapes/Rectangle.h"
-#include "../data/GAME_ASSERT.h"
+#include "../Utils.h"
 
 using namespace std;
 

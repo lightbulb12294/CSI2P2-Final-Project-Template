@@ -21,4 +21,10 @@
 	} \
 }
 
+#ifdef DEBUG
+	#define debug_log(...) printf(__VA_ARGS__)
+#else
+	#define debug_log(...) 
+#endif
+
 #endif

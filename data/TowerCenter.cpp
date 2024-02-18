@@ -1,5 +1,5 @@
 #include "TowerCenter.h"
-#include "GAME_ASSERT.h"
+#include "../Utils.h"
 #include "ImageCenter.h"
 #include "../towers/TowerArcane.h"
 #include "../towers/TowerArcher.h"

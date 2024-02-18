@@ -2,7 +2,7 @@
 #include "Point.h"
 #include "Rectangle.h"
 #include "Circle.h"
-#include "../data/GAME_ASSERT.h"
+#include "../Utils.h"
 #include <algorithm>
 
 using namespace std;
