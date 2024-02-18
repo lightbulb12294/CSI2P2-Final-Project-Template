@@ -10,6 +10,7 @@
 /**
  * @brief Stores and manages audio samples and instances.
  * @details All data related to basic allegro audio (ALLEGRO_SAMPLE and ALLEGRO_SAMPLE_INSTANCE) are all managed by SoundCenter.
+ * If any sample instance has finished playing, the sample instance will be destroyed via update function.
 */
 class SoundCenter
 {
@@ -21,6 +22,7 @@ public:
 	~SoundCenter();
 	bool init();
 	void update();
+	bool erase_sample(const std::string &path);
 	ALLEGRO_SAMPLE_INSTANCE *play(const std::string &path, ALLEGRO_PLAYMODE mode);
 	bool is_playing(const ALLEGRO_SAMPLE_INSTANCE *const inst);
 	void toggle_playing(ALLEGRO_SAMPLE_INSTANCE *inst);

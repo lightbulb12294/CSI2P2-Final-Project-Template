@@ -52,6 +52,25 @@ SoundCenter::update() {
 }
 
 /**
+ * @brief Remove a sample.
+ * @details This function will also destroy all sample instances played by the sample to be destroyed.
+ * @param path audio path.
+ * @return True if the sample of the path is destroyed. False if the sample does not exist.
+*/
+bool
+SoundCenter::erase_sample(const std::string &path) {
+	if(samples.count(path) == 0) {
+		return false;
+	}
+	auto &[sample, insts] = samples[path];
+	for(auto inst : insts) {
+		al_destroy_sample_instance(inst);
+	}
+	al_destroy_sample(sample);
+	return true;
+}
+
+/**
  * @brief Play an audio.
  * @param path the audio file path.
  * @param mode the play mode defined by allegro5.

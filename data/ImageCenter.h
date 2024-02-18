@@ -19,6 +19,7 @@ public:
 	}
 	~ImageCenter();
 	ALLEGRO_BITMAP *get(const std::string &path);
+	bool erase(const std::string &path);
 private:
 	ImageCenter() {}
 	/**

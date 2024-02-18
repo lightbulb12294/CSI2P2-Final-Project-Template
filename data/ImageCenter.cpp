@@ -23,3 +23,19 @@ ImageCenter::get(const std::string &path) {
 	}
 	return bitmaps[path];
 }
+
+/**
+ * @brief Remove a bitmap.
+ * @param path the image path.
+ * @return True if the bitmap of the path is removed. False if the bitmap does not exist.
+*/
+bool
+ImageCenter::erase(const std::string &path) {
+	if(bitmaps.count(path) == 0) {
+		return false;
+	}
+	ALLEGRO_BITMAP *bitmap = bitmaps[path];
+	al_destroy_bitmap(bitmap);
+	bitmaps.erase(path);
+	return true;
+}
