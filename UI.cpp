@@ -159,9 +159,10 @@ UI::draw() {
 			ALLEGRO_ALIGN_CENTRE, "%d", price);
 	}
 
-	static Tower *selected_tower = nullptr;
 	switch(state) {
+		static Tower *selected_tower = nullptr;
 		case STATE::HALT: {
+			// No tower should be selected for HALT state.
 			if(selected_tower != nullptr) {
 				delete selected_tower;
 				selected_tower = nullptr;
@@ -171,10 +172,12 @@ UI::draw() {
 			auto &[bitmap, p, price] = tower_items[on_item];
 			int w = al_get_bitmap_width(bitmap);
 			int h = al_get_bitmap_height(bitmap);
+			// Create a semitransparent mask covered on the hovered tower.
 			al_draw_filled_rectangle(p.x, p.y, p.x+w, p.y+h, al_map_rgba(50, 50, 50, 64));
 			break;
 		}
 		case STATE::SELECT: {
+			// If a tower is selected, we new a corresponding tower for previewing purpose.
 			if(selected_tower == nullptr) {
 				selected_tower = TC->create_tower(static_cast<TowerType>(on_item), mouse);
 			} else {
@@ -183,6 +186,7 @@ UI::draw() {
 			}
 		}
 		case STATE::PLACE: {
+			// If we select a tower from menu, we need to preview where the tower will be built and its attack range.
 			ALLEGRO_BITMAP *bitmap = TC->get_bitmap(static_cast<TowerType>(on_item));
 			al_draw_filled_circle(mouse.x, mouse.y, selected_tower->attack_range(), al_map_rgba(255, 0, 0, 32));
 			int w = al_get_bitmap_width(bitmap);

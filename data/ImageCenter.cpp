@@ -9,8 +9,8 @@ ImageCenter::~ImageCenter() {
 }
 
 /**
- * @brief The getter function searches if a bitmap is loaded and return the bitmap. If not loaded, it will try to load the image and returns.
- * @details If the respective image does not exist, it will immediately call GAME_ASSERT and terminate the game.
+ * @brief The getter function searches if a bitmap is loaded and return the bitmap. If not loaded, it will try to load the image and return.
+ * @details If the respective image does not exist, it will immediately call GAME_ASSERT and terminate the game. This exception can be handled in various ways. e.g. load a "missing texture" when an image fails to load.
  * @param path the image path.
  * @return The curresponding loaded ALLEGRO_BITMAP* instance.
 */

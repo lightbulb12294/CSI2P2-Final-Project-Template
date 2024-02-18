@@ -47,14 +47,13 @@ Monster::Monster(const vector<Point> &path, MonsterType type) {
 	if(!path.empty()) {
 		const Point &grid = this->path.front();
 		const Rectangle &region = DC->level->grid_to_region(grid);
-		// temporarily set the bounding box to the center (no area)
+		// Temporarily set the bounding box to the center (no area) since we haven't got the hit box of the monster.
 		shape.reset(new Rectangle(region.center_x(), region.center_y(), region.center_x(), region.center_y()));
 		this->path.pop();
 	}
 }
 
 /**
- * @brief Update the monster.
  * @details This update function updates the following things in order:
  *          * Move pose of the current facing direction (bitmap_img_id).
  *          * Current position (center of the hit box). The position is moved based on the center of the hit box (Rectangle). If the center of this monster reaches the center of the first point of path, the function will proceed to the next point of path.
@@ -65,20 +64,25 @@ Monster::update() {
 	DataCenter *DC = DataCenter::get_instance();
 	ImageCenter *IC = ImageCenter::get_instance();
 
+	// After a period, the bitmap for this monster should switch from (i)-th image to (i+1)-th image to represent animation.
 	if(bitmap_switch_counter) bitmap_switch_counter--;
 	else {
 		bitmap_img_id = (bitmap_img_id + 1) % (bitmap_img_ids[static_cast<int>(dir)].size());
 		bitmap_switch_counter = bitmap_switch_freq;
 	}
+	// v (velocity) divided by FPS is the actual moving pixels per frame.
 	double movement = v / DC->FPS;
+	// Keep trying to move to next destination in "path" while "path" is not empty and we can still move.
 	while(!path.empty() && movement > 0) {
 		const Point &grid = this->path.front();
 		const Rectangle &region = DC->level->grid_to_region(grid);
 		const Point &next_goal = Point(region.center_x(), region.center_y());
 
+		// Extract the next destination as "next_goal". If we want to reach next_goal, we need to move "d" pixels.
 		double d = Point::dist(Point(shape->center_x(), shape->center_y()), next_goal);
 		Dir tmpdir;
 		if(d < movement) {
+			// If we can move more than "d" pixels in this frame, we can directly move onto next_goal and reduce "movement" by "d".
 			movement -= d;
 			tmpdir = convert_dir(Point(next_goal.x - shape->center_x(), next_goal.y - shape->center_y()));
 			shape.reset(new Rectangle(
@@ -87,6 +91,7 @@ Monster::update() {
 			));
 			path.pop();
 		} else {
+			// Otherwise, we move exactly "movement" pixels.
 			double dx = (next_goal.x - shape->center_x()) / d * movement;
 			double dy = (next_goal.y - shape->center_y()) / d * movement;
 			tmpdir = convert_dir(Point(dx, dy));
@@ -94,12 +99,10 @@ Monster::update() {
 			shape->update_center_y(shape->center_y() + dy);
 			movement = 0;
 		}
-		if(tmpdir != dir) {
-			dir = tmpdir;
-			bitmap_img_id = 0;
-		}
+		// Update facing direction.
+		dir = tmpdir;
 	}
-	// update real bounding box for monster
+	// Update real hit box for monster.
 	char buffer[50];
 	sprintf(
 		buffer, "%s/%s_%d.png",
@@ -109,6 +112,7 @@ Monster::update() {
 	ALLEGRO_BITMAP *bitmap = IC->get(buffer);
 	const double &cx = shape->center_x();
 	const double &cy = shape->center_y();
+	// We set the hit box slightly smaller than the actual bounding box of the image because there are mostly empty spaces near the edge of a image.
 	const int &h = al_get_bitmap_width(bitmap) * 0.8;
 	const int &w = al_get_bitmap_height(bitmap) * 0.8;
 	shape.reset(new Rectangle(
@@ -117,9 +121,6 @@ Monster::update() {
 	));
 }
 
-/**
- * @brief Draw the monster on the display.
-*/
 void
 Monster::draw() {
 	ImageCenter *IC = ImageCenter::get_instance();

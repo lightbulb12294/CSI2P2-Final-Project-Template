@@ -19,7 +19,8 @@ Bullet::Bullet(const Point &p, const Point &target, const std::string &path, dou
 }
 
 /**
- * @brief Update the bullet position by its velocity.
+ * @brief Update the bullet position by its velocity and fly_dist by its movement per frame.
+ * @details We don't detect whether to delete the bullet itself here because deleting a object itself doesn't make any sense.
 */
 void
 Bullet::update() {
@@ -39,9 +40,6 @@ Bullet::update() {
 	}
 }
 
-/**
- * @brief Draw the bullet.
-*/
 void
 Bullet::draw() {
 	al_draw_bitmap(

@@ -7,7 +7,8 @@
 #include <string>
 
 /**
- * @brief Bullet class, inherits from Object and takes Circle as hit box.
+ * @brief The bullet shot from Tower.
+ * @see Tower
 */
 class Bullet : public Object
 {
@@ -29,7 +30,7 @@ private:
 	 * @brief Flying distance limit of the bullet. If the flying distance exceeds the limit, the bullet should be erased.
 	 **
 	 * @var dmg
-	 * @brief Damage of the bullet when hit the monster.
+	 * @brief Base damage of the bullet when hit anything.
 	*/
 	double vx, vy;
 	double fly_dist;

@@ -11,7 +11,7 @@ enum class ShapeType {
 
 /**
  * @brief Base shape class.
- * @details The functions of its derived classes are all defined in Shape.cpp.
+ * @details A "Shape" can be useful in many ways - you can treat Shape as a bounding box, attack range, colliding detection, and many other things. Basically if you want to make objects interact to each other, the Shape is indispensable.
  * @see Shape.cpp
 */
 class Shape

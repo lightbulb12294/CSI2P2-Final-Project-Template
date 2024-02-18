@@ -18,9 +18,10 @@ using namespace std;
 */
 void
 MonsterCenter::update() {
+	// Update monsters first.
 	for(auto &monster : monsters)
 		monster->update();
-	// bullet interact -> hurt & kill monster
+	// If any bullet overlaps with any monster, we delete the bullet, reduce the HP of the monster, and delete the monster if necessary.
 	DataCenter *DC = DataCenter::get_instance();
 	TowerCenter *TC = TowerCenter::get_instance();
 	for(int i=0; i<(int)(monsters.size()); ++i) {
@@ -30,15 +31,17 @@ MonsterCenter::update() {
 				TC->bullets.erase(TC->bullets.begin()+j);
 				--j;
 				if(monsters[i]->HP <= 0) {
+					// Monster gets killed. Player receives money.
 					DC->player->coin += monsters[i]->get_money();
 					monsters.erase(monsters.begin()+i);
 					--i;
+					// Since the current monsster is killed, we can directly proceed to next monster.
 					break;
 				}
 			}
 		}
 	}
-	// monster reaches end - hurt player
+	// If any monster reaches the end, hurt the player and delete the monster.
 	for(int i=0; i<(int)(monsters.size()); ++i) {
 		if(monsters[i]->get_path().empty()) {
 			monsters.erase(monsters.begin()+i);
@@ -48,10 +51,6 @@ MonsterCenter::update() {
 	}
 }
 
-/**
- * @brief Call draw function of each monster stored in monsters.
- * @see Monster::draw()
-*/
 void
 MonsterCenter::draw() {
 	for(auto &monster : monsters)

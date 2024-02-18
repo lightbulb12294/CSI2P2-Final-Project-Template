@@ -9,8 +9,7 @@
 
 /**
  * @brief Stores and manages audio samples and instances.
- * @details SoundCenter adopts [sigleton pattern](https://skyyen999.gitbooks.io/-study-design-pattern-in-java/content/singleton.html) to manage audio-related data.
- * All data related to basic allegro audio (ALLEGRO_SAMPLE and ALLEGRO_SAMPLE_INSTANCE) are all managed by SoundCenter.
+ * @details All data related to basic allegro audio (ALLEGRO_SAMPLE and ALLEGRO_SAMPLE_INSTANCE) are all managed by SoundCenter.
 */
 class SoundCenter
 {
@@ -30,6 +29,7 @@ private:
 	/**
 	 * @brief This map container stores all audio data managed by SoundCenter.
 	 * @details Key object of the map is audio path, and the respective value objects are ALLEGRO_SAMPLE* and a list of ALLEGRO_SAMPLE_INSTANCE*. The ALLEGRO_SAMPLE* represents the corresponding audio sample, and the list of ALLEGRO_SAMPLE_INSTANCE* represent all playing samples.
+	 * Once the sample (ALLEGRO_SAMPLE*) is created, the sample will not be destroyed until the game process ends.
 	*/
 	std::map<std::string, std::pair<ALLEGRO_SAMPLE*, std::vector<ALLEGRO_SAMPLE_INSTANCE*>>> samples;
 };

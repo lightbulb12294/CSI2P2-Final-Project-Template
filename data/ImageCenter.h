@@ -7,8 +7,8 @@
 
 /**
  * @brief Stores and manages bitmaps.
- * @details ImageCenter adopts [sigleton pattern](https://skyyen999.gitbooks.io/-study-design-pattern-in-java/content/singleton.html) to manage bitmap data.
- * ImageCenter loads bitmap data dynamically and persistently. That is, an image will only be loaded when demanded by getter function, and will be stored inside memory once loaded.
+ * @details ImageCenter loads bitmap data dynamically and persistently. That is, an image will only be loaded when demanded by getter function, and will be stored inside memory once loaded.
+ * This center does not free any bitmap as long as the game is running. You can manually free bitmaps that will not be used again if you want to reduce the memory usage.
 */
 class ImageCenter
 {

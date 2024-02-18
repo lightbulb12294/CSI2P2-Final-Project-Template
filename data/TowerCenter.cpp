@@ -32,11 +32,6 @@ TowerCenter::update() {
 	}
 }
 
-/**
- * @brief Call draw function of each tower and bullet.
- * @see Tower::draw()
- * @see Bullet::draw()
-*/
 void
 TowerCenter::draw() {
 	for(auto &tower : towers)

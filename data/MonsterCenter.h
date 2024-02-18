@@ -19,9 +19,8 @@ const char monster_imgs_root_path[][40] = {
 
 /**
  * @brief Stores and manages monsters (enemies).
- * @details MonsterCenter adopts [sigleton pattern](https://skyyen999.gitbooks.io/-study-design-pattern-in-java/content/singleton.html) to manage monster data.
- * All operations related to Monster should be handled and done in the member functions.
- * If a outsider class objects need to interact with monsters, one must determine whether the interaction should be handled in MonsterCenter or other control units.
+ * @details All operations related to Monster is designed to be handled and done in the member functions.
+ * If other class objects need to interact with monsters, one must determine whether the interaction should be handled in MonsterCenter or other control units.
  * @see Monster
 */
 class MonsterCenter

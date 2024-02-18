@@ -11,10 +11,6 @@
 enum class TowerType;
 class Monster;
 
-/**
- * @brief Tower base class.
- * @details The class inherits from Object. Circle here represents its position (x and y) and attack range (r).
-*/
 class Tower : public Object
 {
 public:

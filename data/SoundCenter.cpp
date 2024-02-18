@@ -30,7 +30,7 @@ SoundCenter::init() {
 
 /**
  * @brief The update function searches all sample instances and destroy instances that have finished playing.
- * @details An instance that has finished playing needs to satisfy the following conditions:
+ * @details An instance that has finished playing needs to satisfy all the following conditions:
  *          * The instance is paused (or stopped).
  *          * The audio track position is 0 (at initial position).
  *          * The instance is not set to loop mode.
@@ -92,6 +92,7 @@ SoundCenter::toggle_playing(ALLEGRO_SAMPLE_INSTANCE *inst) {
 	if(is_playing) {
 		unsigned int pos = al_get_sample_instance_position(inst);
 		al_stop_sample_instance(inst);
+		// As the sample stops, allegro will automatically reset the play position to 0. We need to set it back to be able to resume.
 		al_set_sample_instance_position(inst, pos);
 	} else al_play_sample_instance(inst);
 }

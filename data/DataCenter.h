@@ -11,10 +11,9 @@ class Level;
 
 /**
  * @brief Stores generic global data and relatively small data structures.
- * @details DataCenter adopts [sigleton pattern](https://skyyen999.gitbooks.io/-study-design-pattern-in-java/content/singleton.html) to store data that would be used globally.
- * The globally used data such as FPS (frames per second), windows size, game region, and states of input devices (mouse and keyboard).
+ * @details The globally used data such as FPS (frames per second), windows size, game region, and states of input devices (mouse and keyboard).
  * Player and Level are stored here mainly because the objects are small enough that do not require complex management.
- * Other specific data like game objects (towers, monsters ... etc) or ALLEGRO_BITMAP will be managed by other singleton objects.
+ * Other specific data like game objects (towers, monsters ... etc) or ALLEGRO_BITMAP will be managed by other center objects.
 */
 class DataCenter
 {
@@ -27,7 +26,7 @@ public:
 public:
 	/**
 	 * @var game_field_length
-	 * @brief The width and height of game area (not window size).
+	 * @brief The width and height of game area (not window size). That is, the region excludes menu region.
 	 * @details The game area is sticked to the top-left of the display window.
 	 **
 	 * @var key_state

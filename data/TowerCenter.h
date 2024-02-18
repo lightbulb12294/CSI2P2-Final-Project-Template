@@ -36,10 +36,9 @@ const int tower_price[] = {50, 100, 150, 200, 250};
 
 /**
  * @brief Stores and manages towers and bullets.
- * @details TowerCenter adopts [sigleton pattern](https://skyyen999.gitbooks.io/-study-design-pattern-in-java/content/singleton.html) to manage tower and bullet data.
- * All operations related to Tower and Bullet should be handled and done in the member functions.
- * If a outsider class objects need to interact with monsters or bullets, one must determine whether the interaction should be handled in TowerCenter or other control units.
- * Technically the bullet data are not part of tower data. If Bullet needs a more diverse and complex management, one should write another BulletCenter to achieve this.
+ * @details All operations related to Tower and Bullet should be handled and done in the member functions.
+ * If other class objects need to interact with monsters or bullets, one must determine whether the interaction should be handled in TowerCenter or other control units.
+ * Technically the bullet data are not part of tower data. If Bullet needs a more diverse and complex management, it is recommended to write another BulletCenter to achieve this.
  * @see Tower
  * @see Bullet
 */

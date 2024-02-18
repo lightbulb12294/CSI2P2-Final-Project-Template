@@ -11,12 +11,13 @@ const char attack_sound_path[] = "./assets/sound/Arrow.wav";
 
 /**
  * @param p center point (x, y).
- * @param attack_range any monster inside this number would trigger attack. The value will be written into `shape.r`.
+ * @param attack_range any monster inside this number would trigger attack.
  * @param attack_freq period for tower to attack.
  * @param type tower type.
 */
 Tower::Tower(const Point &p, double attack_range, int attack_freq, TowerType type) {
 	ImageCenter *IC = ImageCenter::get_instance();
+	// shape here is used to represent the tower's defending region. If any monster walks into this area (i.e. the bounding box of the monster and defending region of the tower has overlap), the tower should attack.
 	shape.reset(new Circle(p.x, p.y, attack_range));
 	counter = 0;
 	this->attack_freq = attack_freq;
@@ -26,7 +27,7 @@ Tower::Tower(const Point &p, double attack_range, int attack_freq, TowerType typ
 
 /**
  * @brief Update attack cooldown and detect if the tower could make an attack.
- * @see Tower::attack(Object<Rectangle> *target)
+ * @see Tower::attack(Object *target)
 */
 void
 Tower::update() {
@@ -54,9 +55,6 @@ Tower::attack(Object *target) {
 	return true;
 }
 
-/**
- * @brief Draw the tower.
-*/
 void
 Tower::draw() {
 	al_draw_bitmap(
