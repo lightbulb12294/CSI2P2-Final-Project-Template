@@ -2,7 +2,6 @@
 #define GAME_ASSERT_H_INCLUDED
 
 #include <cstdio>
-#include <process.h>
 #include <allegro5/system.h>
 
 /**
