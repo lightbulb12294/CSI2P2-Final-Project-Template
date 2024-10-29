@@ -1,11 +1,11 @@
 #include "Game.h"
 #include "Utils.h"
 #include "data/DataCenter.h"
+#include "data/OperationCenter.h"
 #include "data/SoundCenter.h"
 #include "data/ImageCenter.h"
 #include "data/FontCenter.h"
 #include "data/TowerCenter.h"
-#include "data/MonsterCenter.h"
 #include "Player.h"
 #include "Level.h"
 #include <allegro5/allegro_primitives.h>
@@ -149,9 +149,9 @@ Game::game_init() {
 bool
 Game::game_update() {
 	DataCenter *DC = DataCenter::get_instance();
+	OperationCenter *OC = OperationCenter::get_instance();
 	SoundCenter *SC = SoundCenter::get_instance();
 	TowerCenter *TC = TowerCenter::get_instance();
-	MonsterCenter *MC = MonsterCenter::get_instance();
 	static ALLEGRO_SAMPLE_INSTANCE *background = nullptr;
 
 	switch(state) {
@@ -181,7 +181,7 @@ Game::game_update() {
 				debug_log("<Game> state: change to PAUSE\n");
 				state = STATE::PAUSE;
 			}
-			if(DC->level->remain_monsters() == 0 && MC->monsters.size() == 0) {
+			if(DC->level->remain_monsters() == 0 && DC->monsters.size() == 0) {
 				debug_log("<Game> state: change to END\n");
 				state = STATE::END;
 			}
@@ -208,7 +208,7 @@ Game::game_update() {
 		ui->update();
 		if(state != STATE::START) {
 			DC->level->update();
-			MC->update();
+			OC->update();
 			TC->update();
 		}
 	}
@@ -224,9 +224,9 @@ Game::game_update() {
 void
 Game::game_draw() {
 	DataCenter *DC = DataCenter::get_instance();
+	OperationCenter *OC = OperationCenter::get_instance();
 	FontCenter *FC = FontCenter::get_instance();
 	TowerCenter *TC = TowerCenter::get_instance();
-	MonsterCenter *MC = MonsterCenter::get_instance();
 
 	// Flush the screen first.
 	al_clear_to_color(al_map_rgb(100, 100, 100));
@@ -248,7 +248,7 @@ Game::game_draw() {
 			DC->level->draw();
 			ui->draw();
 			TC->draw();
-			MC->draw();
+			OC->draw();
 		}
 	}
 	switch(state) {

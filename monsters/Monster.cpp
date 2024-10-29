@@ -1,6 +1,9 @@
 #include "Monster.h"
+#include "MonsterWolf.h"
+#include "MonsterCaveMan.h"
+#include "MonsterWolfKnight.h"
+#include "MonsterDemonNinja.h"
 #include "../data/DataCenter.h"
-#include "../data/MonsterCenter.h"
 #include "../data/ImageCenter.h"
 #include <allegro5/allegro_primitives.h>
 #include "../Level.h"
@@ -18,6 +21,32 @@ enum class Dir {
 const char dir_path_prefix[][10] = {
 	"UP", "DOWN", "LEFT", "RIGHT"
 };
+
+/**
+ * @brief Create a Monster* instance by the type.
+ * @param type the type of a monster.
+ * @param path walk path of the monster. The path should be represented in road grid format.
+ * @return The curresponding Monster* instance.
+ * @see Level::grid_to_region(const Point &grid) const
+*/
+Monster *Monster::create_monster(MonsterType type, const vector<Point> &path) {
+	switch(type) {
+		case MonsterType::WOLF: {
+			return new MonsterWolf(path);
+		}
+		case MonsterType::CAVEMAN: {
+			return new MonsterCaveMan(path);
+		}
+		case MonsterType::WOLFKNIGHT: {
+			return new MonsterWolfKnight(path);
+		}
+		case MonsterType::DEMONNIJIA: {
+			return new MonsterDemonNinja(path);
+		}
+		case MonsterType::MONSTERTYPE_MAX: {}
+	}
+	GAME_ASSERT(false, "monster type error.");
+}
 
 /**
  * @brief Given velocity of x and y direction, determine which direction the monster should face.
