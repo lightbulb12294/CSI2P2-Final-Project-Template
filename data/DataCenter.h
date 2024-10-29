@@ -2,12 +2,14 @@
 #define DATACENTER_H_INCLUDED
 
 #include <map>
+#include <vector>
 #include <allegro5/keycodes.h>
 #include <allegro5/mouse.h>
 #include "../shapes/Point.h"
 
 class Player;
 class Level;
+class Monster;
 
 /**
  * @brief Stores generic global data and relatively small data structures.
@@ -70,9 +72,15 @@ public:
 	 * @var level
 	 * @brief Loads and stores the information of a level.
 	 * @see Level
+	 **
+	 * @var monsters
+	 * @brief Raw list of Monster.
+	 * @see Monster
+	 **
 	*/
 	Player *player;
 	Level *level;
+	std::vector<Monster*> monsters;
 private:
 	DataCenter();
 };

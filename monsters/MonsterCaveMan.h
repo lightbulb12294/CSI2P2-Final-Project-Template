@@ -1,8 +1,6 @@
 #ifndef MONSTERCAVEMAN_H_INCLUDED
 #define MONSTERCAVEMAN_H_INCLUDED
 
-#include "../data/MonsterCenter.h"
-
 // fixed settings: MonsterCaveMan attributes
 class MonsterCaveMan : public Monster
 {

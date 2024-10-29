@@ -1,8 +1,8 @@
 #include "Level.h"
 #include <string>
 #include "Utils.h"
+#include "monsters/Monster.h"
 #include "data/DataCenter.h"
-#include "data/MonsterCenter.h"
 #include <allegro5/allegro_primitives.h>
 #include "shapes/Point.h"
 #include "shapes/Rectangle.h"
@@ -75,11 +75,10 @@ Level::update() {
 		return;
 	}
 	DataCenter *DC = DataCenter::get_instance();
-	MonsterCenter *MC = MonsterCenter::get_instance();
 
 	for(int i=0; i<(int)(num_of_monsters.size()); ++i) {
 		if(num_of_monsters[i] == 0) continue;
-		MC->monsters.emplace_back(MC->create_monster(static_cast<MonsterType>(i), DC->level->get_road_path()));
+		DC->monsters.emplace_back(Monster::create_monster(static_cast<MonsterType>(i), DC->level->get_road_path()));
 		num_of_monsters[i]--;
 		break;
 	}

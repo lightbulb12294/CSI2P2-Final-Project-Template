@@ -2,6 +2,9 @@
 #include <cstring>
 #include "../Level.h"
 #include "../Player.h"
+#include "../monsters/Monster.h"
+#include "../towers/Tower.h"
+#include "../towers/Bullet.h"
 
 // fixed settings
 const double FPS = 60;
@@ -26,4 +29,7 @@ DataCenter::DataCenter() {
 DataCenter::~DataCenter() {
 	delete player;
 	delete level;
+	for(Monster *&m : monsters) {
+		delete m;
+	}
 }

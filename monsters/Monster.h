@@ -6,8 +6,18 @@
 #include <vector>
 #include <queue>
 
-enum class MonsterType;
 enum class Dir;
+
+// fixed settings
+enum class MonsterType {
+	WOLF, CAVEMAN, WOLFKNIGHT, DEMONNIJIA, MONSTERTYPE_MAX
+};
+const char monster_imgs_root_path[][40] = {
+	"./assets/image/monster/Wolf",
+	"./assets/image/monster/CaveMan",
+	"./assets/image/monster/WolfKnight",
+	"./assets/image/monster/DemonNinja"
+};
 
 /**
  * @brief The class of a monster (enemies).
@@ -15,6 +25,8 @@ enum class Dir;
 */
 class Monster : public Object
 {
+public:
+	static Monster *create_monster(MonsterType type, const std::vector<Point> &path);
 public:
 	Monster(const std::vector<Point> &path, MonsterType type);
 	void update();

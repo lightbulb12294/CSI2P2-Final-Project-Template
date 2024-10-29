@@ -1,8 +1,6 @@
 #ifndef MONSTERWOLF_H_INCLUDED
 #define MONSTERWOLF_H_INCLUDED
 
-#include "../data/MonsterCenter.h"
-
 // fixed settings: MonsterWolf attributes
 class MonsterWolf : public Monster
 {

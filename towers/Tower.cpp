@@ -1,6 +1,7 @@
 #include "Tower.h"
+#include "../monsters/Monster.h"
 #include "../shapes/Rectangle.h"
-#include "../data/MonsterCenter.h"
+#include "../data/DataCenter.h"
 #include "../data/ImageCenter.h"
 #include "../data/TowerCenter.h"
 #include "../data/SoundCenter.h"
@@ -33,8 +34,8 @@ void
 Tower::update() {
 	if(counter) counter--;
 	else {
-		MonsterCenter *MC = MonsterCenter::get_instance();
-		for(auto &monster : MC->monsters) {
+		DataCenter *DC = DataCenter::get_instance();
+		for(auto &monster : DC->monsters) {
 			if(attack(monster)) break;
 		}
 	}
