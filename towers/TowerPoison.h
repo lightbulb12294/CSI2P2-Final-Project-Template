@@ -1,7 +1,8 @@
 #ifndef TOWERPOISON_H_INCLUDED
 #define TOWERPOISON_H_INCLUDED
 
-#include "../data/TowerCenter.h"
+#include "Tower.h"
+#include "Bullet.h"
 #include "../shapes/Point.h"
 
 // fixed settings: TowerPoison attributes

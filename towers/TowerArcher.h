@@ -1,7 +1,8 @@
 #ifndef TOWERARCHER_H_INCLUDED
 #define TOWERARCHER_H_INCLUDED
 
-#include "../data/TowerCenter.h"
+#include "Tower.h"
+#include "Bullet.h"
 #include "../shapes/Point.h"
 
 // fixed settings: TowerArcher attributes

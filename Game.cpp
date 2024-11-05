@@ -5,7 +5,6 @@
 #include "data/SoundCenter.h"
 #include "data/ImageCenter.h"
 #include "data/FontCenter.h"
-#include "data/TowerCenter.h"
 #include "Player.h"
 #include "Level.h"
 #include <allegro5/allegro_primitives.h>
@@ -151,7 +150,6 @@ Game::game_update() {
 	DataCenter *DC = DataCenter::get_instance();
 	OperationCenter *OC = OperationCenter::get_instance();
 	SoundCenter *SC = SoundCenter::get_instance();
-	TowerCenter *TC = TowerCenter::get_instance();
 	static ALLEGRO_SAMPLE_INSTANCE *background = nullptr;
 
 	switch(state) {
@@ -209,7 +207,6 @@ Game::game_update() {
 		if(state != STATE::START) {
 			DC->level->update();
 			OC->update();
-			TC->update();
 		}
 	}
 	// game_update is finished. The states of current frame will be previous states of the next frame.
@@ -226,7 +223,6 @@ Game::game_draw() {
 	DataCenter *DC = DataCenter::get_instance();
 	OperationCenter *OC = OperationCenter::get_instance();
 	FontCenter *FC = FontCenter::get_instance();
-	TowerCenter *TC = TowerCenter::get_instance();
 
 	// Flush the screen first.
 	al_clear_to_color(al_map_rgb(100, 100, 100));
@@ -247,7 +243,6 @@ Game::game_draw() {
 		if(state != STATE::START) {
 			DC->level->draw();
 			ui->draw();
-			TC->draw();
 			OC->draw();
 		}
 	}

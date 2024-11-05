@@ -6,13 +6,50 @@
 #include "../shapes/Rectangle.h"
 #include <allegro5/bitmap.h>
 #include <string>
-#include "Bullet.h"
+#include <vector>
 
-enum class TowerType;
-class Monster;
+class Bullet;
+
+// fixed settings
+enum class TowerType {
+	ARCANE, ARCHER, CANON, POISON, STORM, TOWERTYPE_MAX
+};
+const std::vector<std::string> tower_full_img_path = {
+	"./assets/image/tower/Arcane.png",
+	"./assets/image/tower/Archer.png",
+	"./assets/image/tower/Canon.png",
+	"./assets/image/tower/Poison.png",
+	"./assets/image/tower/Storm.png"
+};
+const std::vector<std::string> tower_menu_img_path = {
+	"./assets/image/tower/Arcane_Menu.png",
+	"./assets/image/tower/Archer_Menu.png",
+	"./assets/image/tower/Canon_Menu.png",
+	"./assets/image/tower/Poison_Menu.png",
+	"./assets/image/tower/Storm_Menu.png"
+};
+const std::vector<std::string> tower_bullet_img_path = {
+	"./assets/image/tower/Arcane_Beam.png",
+	"./assets/image/tower/Archer_Beam.png",
+	"./assets/image/tower/Canon_Beam.png",
+	"./assets/image/tower/Poison_Beam.png",
+	"./assets/image/tower/Storm_Beam.png"
+};
+const int tower_price[] = {50, 100, 150, 200, 250};
 
 class Tower : public Object
 {
+public:
+	/**
+	 * @brief Get the ALLEGRO_BITMAP* instance of the full image of a specific TowerType.
+	 */
+	static ALLEGRO_BITMAP *get_bitmap(TowerType type);
+	/**
+	 * @brief Create a Tower* instance by the type.
+	 * @param type the type of a tower.
+	 * @param p center point of the tower.
+	 */
+	static Tower *create_tower(TowerType type, const Point &p);
 public:
 	Tower(const Point &p, double attack_range, int attack_freq, TowerType type);
 	virtual ~Tower() {}
@@ -30,7 +67,7 @@ private:
 	 **
 	 * @var counter
 	 * @brief Tower attack cooldown.
-	*/
+	 */
 	int attack_freq;
 	int counter;
 	ALLEGRO_BITMAP *bitmap;

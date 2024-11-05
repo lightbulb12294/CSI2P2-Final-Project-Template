@@ -1,7 +1,8 @@
 #ifndef TOWERCANON_H_INCLUDED
 #define TOWERCANON_H_INCLUDED
 
-#include "../data/TowerCenter.h"
+#include "Tower.h"
+#include "Bullet.h"
 #include "../shapes/Point.h"
 
 // fixed settings: TowerCanon attributes
