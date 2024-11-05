@@ -1,7 +1,8 @@
 #ifndef TOWERARCANE_H_INCLUDED
 #define TOWERARCANE_H_INCLUDED
 
-#include "../data/TowerCenter.h"
+#include "Tower.h"
+#include "Bullet.h"
 #include "../shapes/Point.h"
 
 // fixed settings: TowerArcane attributes

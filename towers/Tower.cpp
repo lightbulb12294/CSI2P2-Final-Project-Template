@@ -1,14 +1,43 @@
 #include "Tower.h"
+#include "TowerArcane.h"
+#include "TowerArcher.h"
+#include "TowerCanon.h"
+#include "TowerPoison.h"
+#include "TowerStorm.h"
+#include "../Utils.h"
 #include "../monsters/Monster.h"
 #include "../shapes/Rectangle.h"
 #include "../data/DataCenter.h"
 #include "../data/ImageCenter.h"
-#include "../data/TowerCenter.h"
 #include "../data/SoundCenter.h"
 #include <allegro5/bitmap_draw.h>
 
 // fixed settings
 const char attack_sound_path[] = "./assets/sound/Arrow.wav";
+
+ALLEGRO_BITMAP*
+Tower::get_bitmap(TowerType type) {
+	ImageCenter *IC = ImageCenter::get_instance();
+	return IC->get(tower_full_img_path[static_cast<int>(type)]);
+}
+
+Tower*
+Tower::create_tower(TowerType type, const Point &p) {
+	switch(type) {
+		case TowerType::ARCANE: {
+			return new TowerArcane(p);
+		} case TowerType::ARCHER: {
+			return new TowerArcher(p);
+		} case TowerType::CANON: {
+			return new TowerCanon(p);
+		} case TowerType::POISON: {
+			return new TowerPoison(p);
+		} case TowerType::STORM: {
+			return new TowerStorm(p);
+		} case TowerType::TOWERTYPE_MAX: {}
+	}
+	GAME_ASSERT(false, "tower type error.");
+}
 
 /**
  * @param p center point (x, y).
@@ -48,9 +77,9 @@ bool
 Tower::attack(Object *target) {
 	if(counter) return false;
 	if(!target->shape->overlap(*shape)) return false;
-	TowerCenter *TC = TowerCenter::get_instance();
+	DataCenter *DC = DataCenter::get_instance();
 	SoundCenter *SC = SoundCenter::get_instance();
-	TC->bullets.emplace_back(create_bullet(target));
+	DC->towerBullets.emplace_back(create_bullet(target));
 	SC->play(attack_sound_path, ALLEGRO_PLAYMODE_ONCE);
 	counter = attack_freq;
 	return true;

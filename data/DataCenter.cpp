@@ -32,4 +32,10 @@ DataCenter::~DataCenter() {
 	for(Monster *&m : monsters) {
 		delete m;
 	}
+	for(Tower *&t : towers) {
+		delete t;
+	}
+	for(Bullet *&b : towerBullets) {
+		delete b;
+	}
 }

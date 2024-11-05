@@ -10,6 +10,8 @@
 class Player;
 class Level;
 class Monster;
+class Tower;
+class Bullet;
 
 /**
  * @brief Stores generic global data and relatively small data structures.
@@ -77,10 +79,17 @@ public:
 	 * @brief Raw list of Monster.
 	 * @see Monster
 	 **
+	 * @var towers
+	 * @brief Raw list of Tower.
+	 **
+	 * @var towerBullets
+	 * @brief Raw list of Bullet.
 	*/
 	Player *player;
 	Level *level;
 	std::vector<Monster*> monsters;
+	std::vector<Tower*> towers;
+	std::vector<Bullet*> towerBullets;
 private:
 	DataCenter();
 };

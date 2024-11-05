@@ -1,33 +1,57 @@
 #include "OperationCenter.h"
 #include "DataCenter.h"
-#include "TowerCenter.h"
 #include "../monsters/Monster.h"
+#include "../towers/Tower.h"
+#include "../towers/Bullet.h"
 #include "../Player.h"
 
 void OperationCenter::update() {
-	// Update monsters first.
+	// Update monsters.
 	_update_monster();
+	// Update towers.
+	_update_tower();
+	// Update tower bullets.
+	_update_towerBullet();
 	// If any bullet overlaps with any monster, we delete the bullet, reduce the HP of the monster, and delete the monster if necessary.
-	_update_monster_bullet();
+	_update_monster_towerBullet();
 	// If any monster reaches the end, hurt the player and delete the monster.
 	_update_monster_player();
 }
 
 void OperationCenter::_update_monster() {
-	DataCenter *DC = DataCenter::get_instance();
-	for(Monster *monster : DC->monsters)
+	std::vector<Monster*> &monsters = DataCenter::get_instance()->monsters;
+	for(Monster *monster : monsters)
 		monster->update();
 }
 
-void OperationCenter::_update_monster_bullet() {
-	DataCenter *DC = DataCenter::get_instance();
-	TowerCenter *TC = TowerCenter::get_instance();
-	for(int i=0; i<(int)(DC->monsters.size()); ++i) {
-		for(int j=0; j<(int)(TC->bullets.size()); ++j) {
+void OperationCenter::_update_tower() {
+	std::vector<Tower*> &towers = DataCenter::get_instance()->towers;
+	for(Tower *tower : towers)
+		tower->update();
+}
+
+void OperationCenter::_update_towerBullet() {
+	std::vector<Bullet*> &towerBullets = DataCenter::get_instance()->towerBullets;
+	for(Bullet *towerBullet : towerBullets)
+		towerBullet->update();
+	// Detect if a bullet flies too far (exceeds its fly distance limit), which means the bullet lifecycle has ended.
+	for(int i=0; i<(int)(towerBullets.size()); ++i) {
+		if(towerBullets[i]->get_fly_dist() <= 0) {
+			towerBullets.erase(towerBullets.begin()+i);
+			--i;
+		}
+	}
+}
+
+void OperationCenter::_update_monster_towerBullet() {
+	std::vector<Monster*> &monsters = DataCenter::get_instance()->monsters;
+	std::vector<Bullet*> &towerBullets = DataCenter::get_instance()->towerBullets;
+	for(int i=0; i<(int)(monsters.size()); ++i) {
+		for(int j=0; j<(int)(towerBullets.size()); ++j) {
 			// Check if the bullet overlaps with the monster.
-			if(DC->monsters[i]->shape->overlap(*(TC->bullets[j]->shape))) {
-				DC->monsters[i]->HP -= TC->bullets[j]->get_dmg();
-				TC->bullets.erase(TC->bullets.begin()+j);
+			if(monsters[i]->shape->overlap(*(towerBullets[j]->shape))) {
+				monsters[i]->HP -= towerBullets[j]->get_dmg();
+				towerBullets.erase(towerBullets.begin()+j);
 				--j;
 			}
 		}
@@ -35,21 +59,22 @@ void OperationCenter::_update_monster_bullet() {
 }
 
 void OperationCenter::_update_monster_player() {
-	DataCenter *DC = DataCenter::get_instance();
-	for(int i=0; i<(int)(DC->monsters.size()); ++i) {
+	std::vector<Monster*> &monsters = DataCenter::get_instance()->monsters;
+	Player *&player = DataCenter::get_instance()->player;
+	for(int i=0; i<(int)(monsters.size()); ++i) {
 		// Check if the monster is killed.
-		if(DC->monsters[i]->HP <= 0) {
+		if(monsters[i]->HP <= 0) {
 			// Monster gets killed. Player receives money.
-			DC->player->coin += DC->monsters[i]->get_money();
-			DC->monsters.erase(DC->monsters.begin()+i);
+			player->coin += monsters[i]->get_money();
+			monsters.erase(monsters.begin()+i);
 			--i;
 			// Since the current monsster is killed, we can directly proceed to next monster.
 			break;
 		}
 		// Check if the monster reaches the end.
-		if(DC->monsters[i]->get_path().empty()) {
-			DC->monsters.erase(DC->monsters.begin()+i);
-			DC->player->HP--;
+		if(monsters[i]->get_path().empty()) {
+			monsters.erase(monsters.begin()+i);
+			player->HP--;
 			--i;
 		}
 	}
@@ -57,10 +82,24 @@ void OperationCenter::_update_monster_player() {
 
 void OperationCenter::draw() {
 	_draw_monster();
+	_draw_tower();
+	_draw_towerBullet();
 }
 
 void OperationCenter::_draw_monster() {
-	DataCenter *DC = DataCenter::get_instance();
-	for(Monster *monster : DC->monsters)
+	std::vector<Monster*> &monsters = DataCenter::get_instance()->monsters;
+	for(Monster *monster : monsters)
 		monster->draw();
+}
+
+void OperationCenter::_draw_tower() {
+	std::vector<Tower*> &towers = DataCenter::get_instance()->towers;
+	for(Tower *tower : towers)
+		tower->draw();
+}
+
+void OperationCenter::_draw_towerBullet() {
+	std::vector<Bullet*> &towerBullets = DataCenter::get_instance()->towerBullets;
+	for(Bullet *towerBullet : towerBullets)
+		towerBullet->draw();
 }

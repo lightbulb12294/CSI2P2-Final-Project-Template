@@ -3,13 +3,13 @@
 #include "data/DataCenter.h"
 #include "data/ImageCenter.h"
 #include "data/FontCenter.h"
-#include "data/TowerCenter.h"
 #include <algorithm>
 #include <allegro5/allegro_primitives.h>
 #include <allegro5/allegro_ttf.h>
 #include "shapes/Point.h"
 #include "shapes/Rectangle.h"
 #include "Player.h"
+#include "towers/Tower.h"
 #include "Level.h"
 
 // fixed settings
@@ -48,7 +48,6 @@ UI::init() {
 void
 UI::update() {
 	DataCenter *DC = DataCenter::get_instance();
-	TowerCenter *TC = TowerCenter::get_instance();
 	const Point &mouse = DC->mouse;
 
 	switch(state) {
@@ -102,7 +101,7 @@ UI::update() {
 			break;
 		} case STATE::PLACE: {
 			// check placement legality
-			ALLEGRO_BITMAP *bitmap = TC->get_bitmap(static_cast<TowerType>(on_item));
+			ALLEGRO_BITMAP *bitmap = Tower::get_bitmap(static_cast<TowerType>(on_item));
 			int w = al_get_bitmap_width(bitmap);
 			int h = al_get_bitmap_height(bitmap);
 			Rectangle place_region(mouse.x-w/2, mouse.y-h/2, DC->mouse.x+w/2, DC->mouse.y+h/2);
@@ -110,13 +109,13 @@ UI::update() {
 			// tower cannot be placed on the road
 			place &= (!DC->level->is_onroad(place_region));
 			// tower cannot intersect with other towers
-			for(auto &tower : TC->towers) {
+			for(auto &tower : DC->towers) {
 				place &= (!place_region.overlap(tower->get_region()));
 			}
 			if(!place) {
 				debug_log("<UI> Tower place failed.\n");
 			} else {
-				TC->towers.emplace_back(TC->create_tower(static_cast<TowerType>(on_item), mouse));
+				DC->towers.emplace_back(Tower::create_tower(static_cast<TowerType>(on_item), mouse));
 				DC->player->coin -= std::get<2>(tower_items[on_item]);
 			}
 			debug_log("<UI> state: change to HALT\n");
@@ -130,7 +129,6 @@ void
 UI::draw() {
 	DataCenter *DC = DataCenter::get_instance();
 	FontCenter *FC = FontCenter::get_instance();
-	TowerCenter *TC = TowerCenter::get_instance();
 	const Point &mouse = DC->mouse;
 	// draw HP
 	const int &game_field_length = DC->game_field_length;
@@ -180,7 +178,7 @@ UI::draw() {
 		case STATE::SELECT: {
 			// If a tower is selected, we new a corresponding tower for previewing purpose.
 			if(selected_tower == nullptr) {
-				selected_tower = TC->create_tower(static_cast<TowerType>(on_item), mouse);
+				selected_tower = Tower::create_tower(static_cast<TowerType>(on_item), mouse);
 			} else {
 				selected_tower->shape->update_center_x(mouse.x);
 				selected_tower->shape->update_center_y(mouse.y);
@@ -188,7 +186,7 @@ UI::draw() {
 		}
 		case STATE::PLACE: {
 			// If we select a tower from menu, we need to preview where the tower will be built and its attack range.
-			ALLEGRO_BITMAP *bitmap = TC->get_bitmap(static_cast<TowerType>(on_item));
+			ALLEGRO_BITMAP *bitmap = Tower::get_bitmap(static_cast<TowerType>(on_item));
 			al_draw_filled_circle(mouse.x, mouse.y, selected_tower->attack_range(), al_map_rgba(255, 0, 0, 32));
 			int w = al_get_bitmap_width(bitmap);
 			int h = al_get_bitmap_height(bitmap);
