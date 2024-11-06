@@ -10,7 +10,7 @@ using namespace std;
 /**
  * @file Shape.cpp
  * @brief All functions and implementations are defined here.
-*/
+ */
 
 bool checkOverlap(const Point *p1, const Point *p2) {
 	return (p1->x == p2->x) && (p1->y == p2->y);
