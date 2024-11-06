@@ -35,7 +35,7 @@ void OperationCenter::_update_towerBullet() {
 	for(Bullet *towerBullet : towerBullets)
 		towerBullet->update();
 	// Detect if a bullet flies too far (exceeds its fly distance limit), which means the bullet lifecycle has ended.
-	for(int i=0; i<(int)(towerBullets.size()); ++i) {
+	for(size_t i = 0; i < towerBullets.size(); ++i) {
 		if(towerBullets[i]->get_fly_dist() <= 0) {
 			towerBullets.erase(towerBullets.begin()+i);
 			--i;
@@ -44,12 +44,14 @@ void OperationCenter::_update_towerBullet() {
 }
 
 void OperationCenter::_update_monster_towerBullet() {
-	std::vector<Monster*> &monsters = DataCenter::get_instance()->monsters;
-	std::vector<Bullet*> &towerBullets = DataCenter::get_instance()->towerBullets;
-	for(int i=0; i<(int)(monsters.size()); ++i) {
-		for(int j=0; j<(int)(towerBullets.size()); ++j) {
+	DataCenter *DC = DataCenter::get_instance();
+	std::vector<Monster*> &monsters = DC->monsters;
+	std::vector<Bullet*> &towerBullets = DC->towerBullets;
+	for(size_t i = 0; i < monsters.size(); ++i) {
+		for(size_t j = 0; j < towerBullets.size(); ++j) {
 			// Check if the bullet overlaps with the monster.
 			if(monsters[i]->shape->overlap(*(towerBullets[j]->shape))) {
+				// Reduce the HP of the monster. Delete the bullet.
 				monsters[i]->HP -= towerBullets[j]->get_dmg();
 				towerBullets.erase(towerBullets.begin()+j);
 				--j;
@@ -59,9 +61,10 @@ void OperationCenter::_update_monster_towerBullet() {
 }
 
 void OperationCenter::_update_monster_player() {
-	std::vector<Monster*> &monsters = DataCenter::get_instance()->monsters;
-	Player *&player = DataCenter::get_instance()->player;
-	for(int i=0; i<(int)(monsters.size()); ++i) {
+	DataCenter *DC = DataCenter::get_instance();
+	std::vector<Monster*> &monsters = DC->monsters;
+	Player *&player = DC->player;
+	for(size_t i = 0; i < monsters.size(); ++i) {
 		// Check if the monster is killed.
 		if(monsters[i]->HP <= 0) {
 			// Monster gets killed. Player receives money.
