@@ -3,7 +3,7 @@
 
 /**
  * @brief Class that defines functions for all object operations.
- * @details Object self-update and draw functions and object-to-object interactions are defined here.
+ * @details Object self-update, draw, and object-to-object interact functions are defined here.
  */
 class OperationCenter
 {
@@ -24,11 +24,13 @@ public:
 	void draw();
 private:
 	OperationCenter() {}
+private:
 	void _update_monster();
 	void _update_tower();
 	void _update_towerBullet();
 	void _update_monster_towerBullet();
 	void _update_monster_player();
+private:
 	void _draw_monster();
 	void _draw_tower();
 	void _draw_towerBullet();
