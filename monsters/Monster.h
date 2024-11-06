@@ -12,17 +12,11 @@ enum class Dir;
 enum class MonsterType {
 	WOLF, CAVEMAN, WOLFKNIGHT, DEMONNIJIA, MONSTERTYPE_MAX
 };
-const char monster_imgs_root_path[][40] = {
-	"./assets/image/monster/Wolf",
-	"./assets/image/monster/CaveMan",
-	"./assets/image/monster/WolfKnight",
-	"./assets/image/monster/DemonNinja"
-};
 
 /**
  * @brief The class of a monster (enemies).
  * @details Monster inherits Object and takes Rectangle as its hit box.
-*/
+ */
 class Monster : public Object
 {
 public:

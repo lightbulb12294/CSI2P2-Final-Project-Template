@@ -1,11 +1,13 @@
 #ifndef MONSTERWOLF_H_INCLUDED
 #define MONSTERWOLF_H_INCLUDED
 
+#include "Monster.h"
+
 // fixed settings: MonsterWolf attributes
 class MonsterWolf : public Monster
 {
 public:
-	MonsterWolf(const std::vector<Point> &path) : Monster(path, MonsterType::WOLF) {
+	MonsterWolf(const std::vector<Point> &path) : Monster{path, MonsterType::WOLF} {
 		HP = 10;
 		v = 60;
 		money = 10;

@@ -6,9 +6,16 @@
 
 /**
  * @see Shape.cpp
-*/
+ */
 class Point : public Shape
 {
+public:
+	static double dist2(const Point &p1, const Point &p2) {
+		return (p1.x - p2.x) * (p1.x - p2.x) + (p1.y - p2.y) * (p1.y - p2.y);
+	}
+	static double dist(const Point &p1, const Point &p2) {
+		return std::sqrt(dist2(p1, p2));
+	}
 public:
 	bool overlap(const Shape &s) const;
 	double center_x() const { return x; }
@@ -18,13 +25,7 @@ public:
 	const ShapeType getType() const { return ShapeType::POINT; }
 public:
 	Point() {}
-	Point(double x, double y) : x(x), y(y) {}
-	static double dist2(const Point &p1, const Point &p2) {
-		return (p1.x - p2.x) * (p1.x - p2.x) + (p1.y - p2.y) * (p1.y - p2.y);
-	}
-	static double dist(const Point &p1, const Point &p2) {
-		return std::sqrt(dist2(p1, p2));
-	}
+	Point(double x, double y) : x{x}, y{y} {}
 	double x, y;
 };
 

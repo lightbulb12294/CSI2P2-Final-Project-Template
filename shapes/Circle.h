@@ -5,7 +5,7 @@
 
 /**
  * @see Shape.cpp
-*/
+ */
 class Circle : public Shape
 {
 public:
@@ -17,7 +17,7 @@ public:
 	const ShapeType getType() const { return ShapeType::CIRCLE; }
 public:
 	Circle() {}
-	Circle(double x, double y, double r) : x(x), y(y), r(r) {}
+	Circle(double x, double y, double r) : x{x}, y{y}, r{r} {}
 	double x, y, r;
 };
 
