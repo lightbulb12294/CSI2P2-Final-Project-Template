@@ -26,6 +26,7 @@ public:
 public:
 	Point() {}
 	Point(double x, double y) : x{x}, y{y} {}
+	Point(int x, int y) : x(x), y(y) {}
 	double x, y;
 };
 

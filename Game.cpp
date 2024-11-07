@@ -16,16 +16,16 @@
 #include <cstring>
 
 // fixed settings
-const char game_icon_img_path[] = "./assets/image/game_icon.png";
-const char game_start_sound_path[] = "./assets/sound/growl.wav";
-const char background_img_path[] = "./assets/image/StartBackground.jpg";
-const char background_sound_path[] = "./assets/sound/BackgroundMusic.ogg";
+constexpr char game_icon_img_path[] = "./assets/image/game_icon.png";
+constexpr char game_start_sound_path[] = "./assets/sound/growl.wav";
+constexpr char background_img_path[] = "./assets/image/StartBackground.jpg";
+constexpr char background_sound_path[] = "./assets/sound/BackgroundMusic.ogg";
 
 /**
  * @brief Game entry.
  * @details The function processes all allegro events and update the event state to a generic data storage (i.e. DataCenter).
  * For timer event, the game_update and game_draw function will be called if and only if the current is timer.
-*/
+ */
 void
 Game::execute() {
 	DataCenter *DC = DataCenter::get_instance();
@@ -66,7 +66,7 @@ Game::execute() {
 /**
  * @brief Initialize all allegro addons and the game body.
  * @details Only one timer is created since a game and all its data should be processed synchronously.
-*/
+ */
 Game::Game() {
 	DataCenter *DC = DataCenter::get_instance();
 	GAME_ASSERT(al_init(), "failed to initialize allegro.");
@@ -104,7 +104,7 @@ Game::Game() {
 
 /**
  * @brief Initialize all auxiliary resources.
-*/
+ */
 void
 Game::game_init() {
 	DataCenter *DC = DataCenter::get_instance();
@@ -144,7 +144,7 @@ Game::game_init() {
  * @details The behavior of the whole game body is determined by its state.
  * @return Whether the game should keep running (true) or reaches the termination criteria (false).
  * @see Game::STATE
-*/
+ */
 bool
 Game::game_update() {
 	DataCenter *DC = DataCenter::get_instance();
@@ -217,7 +217,7 @@ Game::game_update() {
 
 /**
  * @brief Draw the whole game and objects.
-*/
+ */
 void
 Game::game_draw() {
 	DataCenter *DC = DataCenter::get_instance();
