@@ -28,7 +28,7 @@ UI::init() {
 	int max_height = 0;
 	// arrange tower shop
 	for(int i=0; i<(int)(TowerType::TOWERTYPE_MAX); ++i) {
-		ALLEGRO_BITMAP *bitmap = IC->get(tower_menu_img_path[i]);
+		ALLEGRO_BITMAP *bitmap = IC->get(TowerSetting::tower_menu_img_path[i]);
 		int w = al_get_bitmap_width(bitmap);
 		int h = al_get_bitmap_height(bitmap);
 		if(tl_x + w > DC->window_width) {
@@ -36,7 +36,7 @@ UI::init() {
 			tl_y += max_height + tower_img_top_padding;
 			max_height = 0;
 		}
-		tower_items.emplace_back(bitmap, Point(tl_x, tl_y), tower_price[i]);
+		tower_items.emplace_back(bitmap, Point(tl_x, tl_y), TowerSetting::tower_price[i]);
 		tl_x += w + tower_img_left_padding;
 		max_height = std::max(max_height, h);
 	}

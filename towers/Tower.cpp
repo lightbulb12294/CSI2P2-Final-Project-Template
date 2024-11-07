@@ -5,6 +5,7 @@
 #include "TowerPoison.h"
 #include "TowerStorm.h"
 #include "../Utils.h"
+#include "../shapes/Circle.h"
 #include "../monsters/Monster.h"
 #include "../shapes/Rectangle.h"
 #include "../data/DataCenter.h"
@@ -13,12 +14,14 @@
 #include <allegro5/bitmap_draw.h>
 
 // fixed settings
-const char attack_sound_path[] = "./assets/sound/Arrow.wav";
+namespace TowerSetting {
+	constexpr char attack_sound_path[] = "./assets/sound/Arrow.wav";
+};
 
 ALLEGRO_BITMAP*
 Tower::get_bitmap(TowerType type) {
 	ImageCenter *IC = ImageCenter::get_instance();
-	return IC->get(tower_full_img_path[static_cast<int>(type)]);
+	return IC->get(TowerSetting::tower_full_img_path[static_cast<int>(type)]);
 }
 
 Tower*
@@ -52,7 +55,7 @@ Tower::Tower(const Point &p, double attack_range, int attack_freq, TowerType typ
 	counter = 0;
 	this->attack_freq = attack_freq;
 	this->type = type;
-	bitmap = IC->get(tower_full_img_path[static_cast<int>(type)]);
+	bitmap = IC->get(TowerSetting::tower_full_img_path[static_cast<int>(type)]);
 }
 
 /**
@@ -64,7 +67,7 @@ Tower::update() {
 	if(counter) counter--;
 	else {
 		DataCenter *DC = DataCenter::get_instance();
-		for(auto &monster : DC->monsters) {
+		for(Monster *monster : DC->monsters) {
 			if(attack(monster)) break;
 		}
 	}
@@ -80,7 +83,7 @@ Tower::attack(Object *target) {
 	DataCenter *DC = DataCenter::get_instance();
 	SoundCenter *SC = SoundCenter::get_instance();
 	DC->towerBullets.emplace_back(create_bullet(target));
-	SC->play(attack_sound_path, ALLEGRO_PLAYMODE_ONCE);
+	SC->play(TowerSetting::attack_sound_path, ALLEGRO_PLAYMODE_ONCE);
 	counter = attack_freq;
 	return true;
 }
