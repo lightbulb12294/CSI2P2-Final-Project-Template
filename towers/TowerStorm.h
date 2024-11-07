@@ -13,7 +13,7 @@ public:
 	Bullet *create_bullet(Object *target) {
 		const Point &p = Point(shape->center_x(), shape->center_y());
 		const Point &t = Point(target->shape->center_x(), target->shape->center_y());
-		return new Bullet(p, t, tower_bullet_img_path[static_cast<int>(type)], 360, 1, attack_range());
+		return new Bullet(p, t, TowerSetting::tower_bullet_img_path[static_cast<int>(type)], 360, 1, attack_range());
 	}
 	const double attack_range() const { return 150; }
 };
