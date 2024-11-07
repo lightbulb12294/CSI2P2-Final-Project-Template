@@ -26,7 +26,9 @@ public:
 public:
 	Point() {}
 	Point(double x, double y) : x{x}, y{y} {}
-	Point(int x, int y) : x(x), y(y) {}
+	Point(int x, int y) :
+		x{static_cast<double>(x)},
+		y{static_cast<double>(y)} {}
 	double x, y;
 };
 

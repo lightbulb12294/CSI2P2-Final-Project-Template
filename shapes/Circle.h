@@ -18,6 +18,10 @@ public:
 public:
 	Circle() {}
 	Circle(double x, double y, double r) : x{x}, y{y}, r{r} {}
+	Circle(int x, int y, int r) :
+		x{static_cast<double>(x)},
+		y{static_cast<double>(y)},
+		r{static_cast<double>(r)} {}
 	double x, y, r;
 };
 
