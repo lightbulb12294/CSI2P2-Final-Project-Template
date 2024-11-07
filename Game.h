@@ -7,7 +7,7 @@
 /**
  * @brief Main class that runs the whole game.
  * @details All game procedures must be processed through this class.
-*/
+ */
 class Game
 {
 public:
@@ -22,7 +22,7 @@ private:
 	/**
 	 * @brief States of the game process in game_update.
 	 * @see Game::game_update()
-	*/
+	 */
 	enum class STATE {
 		START, // -> LEVEL
 		LEVEL, // -> PAUSE, END

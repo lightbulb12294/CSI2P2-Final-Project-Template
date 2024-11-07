@@ -6,15 +6,19 @@
 #include <allegro5/allegro_primitives.h>
 #include "shapes/Point.h"
 #include "shapes/Rectangle.h"
+#include <array>
 
 using namespace std;
 
 // fixed settings
-const char level_path_format[] = "./assets/level/LEVEL%d.txt";
-const vector<int> grid_size = {
-	40, 40, 40, 40
+namespace LevelSetting {
+	constexpr char level_path_format[] = "./assets/level/LEVEL%d.txt";
+	//! @brief Grid size for each level.
+	constexpr array<int, 4> grid_size = {
+		40, 40, 40, 40
+	};
+	constexpr int monster_spawn_rate = 90;
 };
-const int monster_spawn_rate = 90;
 
 void
 Level::init() {
@@ -33,25 +37,25 @@ Level::init() {
  *          * Indefinite number of Point (x, y), represented in grid format.
  * @see level_path_format
  * @see MonsterType
-*/
+ */
 void
 Level::load_level(int lvl) {
 	DataCenter *DC = DataCenter::get_instance();
 
 	char buffer[50];
-	sprintf(buffer, level_path_format, lvl);
+	sprintf(buffer, LevelSetting::level_path_format, lvl);
 	FILE *f = fopen(buffer, "r");
 	GAME_ASSERT(f != nullptr, "cannot find level.");
 	level = lvl;
-	grid_w = DC->game_field_length / grid_size[lvl];
-	grid_h = DC->game_field_length / grid_size[lvl];
+	grid_w = DC->game_field_length / LevelSetting::grid_size[lvl];
+	grid_h = DC->game_field_length / LevelSetting::grid_size[lvl];
 	num_of_monsters.clear();
 	road_path.clear();
 
 	int num;
 	// read total number of monsters & number of each monsters
 	fscanf(f, "%d", &num);
-	for(int i=0; i<static_cast<int>(MonsterType::MONSTERTYPE_MAX); ++i) {
+	for(size_t i = 0; i < static_cast<size_t>(MonsterType::MONSTERTYPE_MAX); ++i) {
 		fscanf(f, "%d", &num);
 		num_of_monsters.emplace_back(num);
 	}
@@ -76,30 +80,30 @@ Level::update() {
 	}
 	DataCenter *DC = DataCenter::get_instance();
 
-	for(int i=0; i<(int)(num_of_monsters.size()); ++i) {
+	for(size_t i = 0; i < num_of_monsters.size(); ++i) {
 		if(num_of_monsters[i] == 0) continue;
 		DC->monsters.emplace_back(Monster::create_monster(static_cast<MonsterType>(i), DC->level->get_road_path()));
 		num_of_monsters[i]--;
 		break;
 	}
-	monster_spawn_counter = monster_spawn_rate;
+	monster_spawn_counter = LevelSetting::monster_spawn_rate;
 }
 
 void
 Level::draw() {
 	if(level == -1) return;
 	for(auto &[i, j] : road_path) {
-		int x1 = i * grid_size[level];
-		int y1 = j * grid_size[level];
-		int x2 = x1 + grid_size[level];
-		int y2 = y1 + grid_size[level];
+		int x1 = i * LevelSetting::grid_size[level];
+		int y1 = j * LevelSetting::grid_size[level];
+		int x2 = x1 + LevelSetting::grid_size[level];
+		int y2 = y1 + LevelSetting::grid_size[level];
 		al_draw_filled_rectangle(x1, y1, x2, y2, al_map_rgb(255, 244, 173));
 	}
 }
 
 bool
 Level::is_onroad(const Rectangle &region) {
-	for(auto &grid : road_path) {
+	for(const Point &grid : road_path) {
 		if(grid_to_region(grid).overlap(region))
 			return true;
 	}
@@ -108,9 +112,9 @@ Level::is_onroad(const Rectangle &region) {
 
 Rectangle
 Level::grid_to_region(const Point &grid) const {
-	int x1 = grid.x * grid_size[level];
-	int y1 = grid.y * grid_size[level];
-	int x2 = x1 + grid_size[level];
-	int y2 = y1 + grid_size[level];
-	return Rectangle(x1, y1, x2, y2);
+	int x1 = grid.x * LevelSetting::grid_size[level];
+	int y1 = grid.y * LevelSetting::grid_size[level];
+	int x2 = x1 + LevelSetting::grid_size[level];
+	int y2 = y1 + LevelSetting::grid_size[level];
+	return Rectangle{x1, y1, x2, y2};
 }
