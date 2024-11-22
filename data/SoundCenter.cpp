@@ -26,6 +26,7 @@ SoundCenter::~SoundCenter() {
 bool
 SoundCenter::init() {
 	bool res = true;
+	res &= al_restore_default_mixer();
 	res &= al_reserve_samples(SoundSetting::RESERVED_SAMPLES);
 	res &= (al_get_default_mixer() != nullptr);
 	return res;
