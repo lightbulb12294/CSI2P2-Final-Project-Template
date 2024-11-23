@@ -3,6 +3,7 @@
 
 #include "../Object.h"
 #include "../shapes/Rectangle.h"
+#include "../shapes/Point.h"
 #include <vector>
 #include <queue>
 
