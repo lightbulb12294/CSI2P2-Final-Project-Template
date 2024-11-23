@@ -5,5 +5,5 @@
 
 - Allegro download: [https ://github.com/liballeg/allegro5/releases](https://github.com/liballeg/allegro5/releases)
 - Allegro install(Mac OS): [https://hackmd.io/@Jiza/BkZ5a5yL2](https://hackmd.io/@Jiza/BkZ5a5yL2)
-- Allegro documentation: [https://www.allegro.cc/manual/5/index.html](https://www.allegro.cc/manual/5/index.html)
+- Allegro documentation: [https://liballeg.org/a5docs/trunk/](https://liballeg.org/a5docs/trunk/)
 - GIF convert: [https://ezgif.com/video-to-gif](https://ezgif.com/video-to-gif)
