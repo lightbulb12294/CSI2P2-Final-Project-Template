@@ -37,7 +37,8 @@ void OperationCenter::_update_towerBullet() {
 	// Detect if a bullet flies too far (exceeds its fly distance limit), which means the bullet lifecycle has ended.
 	for(size_t i = 0; i < towerBullets.size(); ++i) {
 		if(towerBullets[i]->get_fly_dist() <= 0) {
-			towerBullets.erase(towerBullets.begin()+i);
+			delete towerBullets[i];
+			towerBullets.erase(towerBullets.begin() + i);
 			--i;
 		}
 	}
@@ -53,7 +54,8 @@ void OperationCenter::_update_monster_towerBullet() {
 			if(monsters[i]->shape->overlap(*(towerBullets[j]->shape))) {
 				// Reduce the HP of the monster. Delete the bullet.
 				monsters[i]->HP -= towerBullets[j]->get_dmg();
-				towerBullets.erase(towerBullets.begin()+j);
+				delete towerBullets[j];
+				towerBullets.erase(towerBullets.begin() + j);
 				--j;
 			}
 		}
@@ -69,14 +71,16 @@ void OperationCenter::_update_monster_player() {
 		if(monsters[i]->HP <= 0) {
 			// Monster gets killed. Player receives money.
 			player->coin += monsters[i]->get_money();
-			monsters.erase(monsters.begin()+i);
+			delete monsters[i];
+			monsters.erase(monsters.begin() + i);
 			--i;
 			// Since the current monsster is killed, we can directly proceed to next monster.
 			break;
 		}
 		// Check if the monster reaches the end.
 		if(monsters[i]->get_path().empty()) {
-			monsters.erase(monsters.begin()+i);
+			delete monsters[i];
+			monsters.erase(monsters.begin() + i);
 			player->HP--;
 			--i;
 		}
