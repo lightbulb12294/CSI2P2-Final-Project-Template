@@ -1,11 +1,9 @@
 #ifndef DATACENTER_H_INCLUDED
 #define DATACENTER_H_INCLUDED
 
-#include <map>
-#include <vector>
 #include <allegro5/keycodes.h>
 #include <allegro5/mouse.h>
-#include "../shapes/Point.h"
+#include <vector>
 
 class Player;
 class Level;

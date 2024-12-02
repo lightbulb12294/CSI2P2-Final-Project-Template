@@ -1,10 +1,8 @@
 #include "DataCenter.h"
 #include <cstring>
-#include "../Level.h"
+#include "../shapes/Point.h"
 #include "../Player.h"
-#include "../monsters/Monster.h"
-#include "../towers/Tower.h"
-#include "../towers/Bullet.h"
+#include "../Level.h"
 
 // fixed settings
 namespace DataSetting {
