@@ -3,6 +3,11 @@ name: build
 on:
   push:
     branches: [ "main" ]
+    paths:
+      - "**/*.cpp"
+      - "**/*.c"
+      - "**/*.hpp"
+      - "**/*.h"
   workflow_dispatch:
 
 jobs:
