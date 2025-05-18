@@ -1,7 +1,9 @@
 # Introduction to Programming II Final Project Template
 > Class Hwann-Tzong Chen
 
-[![build](https://github.com/lightbulb12294/CSI2P-Final-Project-Template/actions/workflows/build.yml/badge.svg?branch=main&event=push)](https://github.com/lightbulb12294/CSI2P-Final-Project-Template/actions/workflows/build.yml)
+[![build-windows](https://github.com/lightbulb12294/CSI2P-Final-Project-Template/actions/workflows/build-windows.yml/badge.svg?branch=main&event=push)](https://github.com/lightbulb12294/CSI2P-Final-Project-Template/actions/workflows/build-windows.yml)
+[![build-linux](https://github.com/lightbulb12294/CSI2P-Final-Project-Template/actions/workflows/build-linux.yml/badge.svg?branch=main&event=push)](https://github.com/lightbulb12294/CSI2P-Final-Project-Template/actions/workflows/build-linux.yml)
+[![build-macOS](https://github.com/lightbulb12294/CSI2P-Final-Project-Template/actions/workflows/build-macOS.yml/badge.svg?branch=main&event=push)](https://github.com/lightbulb12294/CSI2P-Final-Project-Template/actions/workflows/build-macOS.yml)
 
 ## Resource
 
