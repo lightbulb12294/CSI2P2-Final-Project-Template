@@ -48,3 +48,6 @@ jobs:
 
     - name: check build
       run: ls SourceCode/game
+
+    - name: run test mode
+      run: SourceCode/game --test

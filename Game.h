@@ -13,7 +13,7 @@ class Game
 public:
 	void execute();
 public:
-	Game();
+	Game(bool testMode = false);
 	~Game();
 	void game_init();
 	bool game_update();

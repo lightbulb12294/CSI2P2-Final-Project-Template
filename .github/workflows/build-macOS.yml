@@ -15,42 +15,45 @@ jobs:
     runs-on: macos-13
 
     steps:
-      - name: install brew
-        run: /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+    - name: install brew
+      run: /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
-      - name: install base dependencies
-        run: brew install cmake pkg-config git
+    - name: install base dependencies
+      run: brew install cmake pkg-config git
 
-      - name: install allegro font & image dependencies
-        run: brew install freetype libpng jpeg freeimage
+    - name: install allegro font & image dependencies
+      run: brew install freetype libpng jpeg freeimage
 
-      - name: install allegro sound & video dependencies
-        run: brew install dumb flac libogg libvorbis opusfile theora webp
+    - name: install allegro sound & video dependencies
+      run: brew install dumb flac libogg libvorbis opusfile theora webp
 
-      - name: download minimp3 support
-        run: wget https://raw.githubusercontent.com/lieff/minimp3/refs/heads/master/minimp3.h && wget https://raw.githubusercontent.com/lieff/minimp3/refs/heads/master/minimp3_ex.h && sudo mv minimp3.h /usr/local/include && sudo mv minimp3_ex.h /usr/local/include
+    - name: download minimp3 support
+      run: wget https://raw.githubusercontent.com/lieff/minimp3/refs/heads/master/minimp3.h && wget https://raw.githubusercontent.com/lieff/minimp3/refs/heads/master/minimp3_ex.h && sudo mv minimp3.h /usr/local/include && sudo mv minimp3_ex.h /usr/local/include
 
-      - name: install allegro other dependencies
-        run: brew install physfs sdl2 gtk+3
+    - name: install allegro other dependencies
+      run: brew install physfs sdl2 gtk+3
 
-      - name: download allegro-5.2.7.0
-        run: wget https://github.com/liballeg/allegro5/releases/download/5.2.7.0/allegro-5.2.7.0.tar.gz
+    - name: download allegro-5.2.7.0
+      run: wget https://github.com/liballeg/allegro5/releases/download/5.2.7.0/allegro-5.2.7.0.tar.gz
 
-      - name: unzip allegro-5.2.7.0
-        run: tar -xzf allegro-5.2.7.0.tar.gz
+    - name: unzip allegro-5.2.7.0
+      run: tar -xzf allegro-5.2.7.0.tar.gz
 
-      - name: build allegro-5.2.7.0
-        run: cd allegro-5.2.7.0 && mkdir build && cd build && cmake -DCMAKE_INSTALL_PREFIX=/usr/local -DWANT_PKG_CONFIG=ON -DWANT_SHARED=ON .. && make -j8 && sudo make install
+    - name: build allegro-5.2.7.0
+      run: cd allegro-5.2.7.0 && mkdir build && cd build && cmake -DCMAKE_INSTALL_PREFIX=/usr/local -DCMAKE_POLICY_VERSION_MINIMUM=3.5 -DWANT_PKG_CONFIG=ON -DWANT_SHARED=ON .. && make -j8 && sudo make install
 
-      - name: export library path
-        run: printf "LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH\nDYLD_LIBRARY_PATH=/usr/local/lib:$DYLD_LIBRARY_PATH\n" >> $GITHUB_ENV
+    - name: export library path
+      run: printf "LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH\nDYLD_LIBRARY_PATH=/usr/local/lib:$DYLD_LIBRARY_PATH\n" >> $GITHUB_ENV
 
-      - uses: actions/checkout@v4
-        with:
-          path: SourceCode
+    - uses: actions/checkout@v4
+      with:
+        path: SourceCode
 
-      - name: build
-        run: cd SourceCode && make
+    - name: build
+      run: cd SourceCode && make
 
-      - name: check build
-        run: ls SourceCode/game
+    - name: check build
+      run: ls SourceCode/game
+
+    - name: run test mode
+      run: SourceCode/game --test

@@ -67,7 +67,7 @@ Game::execute() {
  * @brief Initialize all allegro addons and the game body.
  * @details Only one timer is created since a game and all its data should be processed synchronously.
  */
-Game::Game() {
+Game::Game(bool testMode) {
 	DataCenter *DC = DataCenter::get_instance();
 	GAME_ASSERT(al_init(), "failed to initialize allegro.");
 
@@ -80,6 +80,14 @@ Game::Game() {
 	addon_init &= al_init_acodec_addon();
 	GAME_ASSERT(addon_init, "failed to initialize allegro addons.");
 
+	if(testMode) {
+		timer = nullptr;
+		event_queue = nullptr;
+		display = nullptr;
+		debug_log("Game initialized in test mode.\n");
+		return;
+	}
+
 	// initialize events
 	bool event_init = true;
 	event_init &= al_install_keyboard();
@@ -89,14 +97,14 @@ Game::Game() {
 
 	// initialize game body
 	GAME_ASSERT(
-		display = al_create_display(DC->window_width, DC->window_height),
-		"failed to create display.");
-	GAME_ASSERT(
 		timer = al_create_timer(1.0 / DC->FPS),
 		"failed to create timer.");
 	GAME_ASSERT(
 		event_queue = al_create_event_queue(),
 		"failed to create event queue.");
+	GAME_ASSERT(
+		display = al_create_display(DC->window_width, DC->window_height),
+		"failed to create display.");
 
 	debug_log("Game initialized.\n");
 	game_init();
@@ -265,7 +273,7 @@ Game::game_draw() {
 }
 
 Game::~Game() {
-	al_destroy_display(display);
-	al_destroy_timer(timer);
-	al_destroy_event_queue(event_queue);
+	if(display) al_destroy_display(display);
+	if(timer) al_destroy_timer(timer);
+	if(event_queue) al_destroy_event_queue(event_queue);
 }

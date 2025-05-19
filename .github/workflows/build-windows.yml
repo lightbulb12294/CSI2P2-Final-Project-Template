@@ -40,3 +40,6 @@ jobs:
 
     - name: check build
       run: ls SourceCode/game.exe
+
+    - name: run test mode
+      run: SourceCode/game.exe --test
