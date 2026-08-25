@@ -1,4 +1,3 @@
-.gitignore
 .vscode
 doxy_file
 *.o
